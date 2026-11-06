@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAF9F6"
+    tools:context=".DashboardActivity">
+
+    <!-- Header: My notes & Profile Icon -->
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/title_my_notes"
+        android:textColor="#111111"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardProfile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#E0E7FF"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvHeaderTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvHeaderTitle">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/cd_profile"
+            android:padding="12dp"
+            android:src="@android:drawable/ic_menu_myplaces"
+            app:tint="#3730A3" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Search Bar -->
+    <EditText
+        android:id="@+id/etSearchNotes"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_edittext"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:drawablePadding="10dp"
+        android:hint="@string/hint_search_notes"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingHorizontal="16dp"
+        android:textColor="#111111"
+        android:textColorHint="#4B5563"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvHeaderTitle" />
+
+    <!-- Filter Chips (Horizontal Scroll) -->
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="24dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearchNotes">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#4F46E5"
+                android:minHeight="48dp"
+                android:text="@string/chip_all"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                app:cornerRadius="24dp" />
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#FFFFFF"
+                android:minHeight="48dp"
+                android:text="@string/chip_pinned"
+                android:textAllCaps="false"
+                android:textColor="#111111"
+                app:cornerRadius="24dp"
+                app:strokeColor="#D1D5DB"
+                app:strokeWidth="1dp" />
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:backgroundTint="#FFFFFF"
+                android:minHeight="48dp"
+                android:text="@string/chip_work"
+                android:textAllCaps="false"
+                android:textColor="#111111"
+                app:cornerRadius="24dp"
+                app:strokeColor="#D1D5DB"
+                app:strokeWidth="1dp" />
+
+            <Button
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:backgroundTint="#FFFFFF"
+                android:minHeight="48dp"
+                android:text="@string/chip_personal"
+                android:textAllCaps="false"
+                android:textColor="#111111"
+                app:cornerRadius="24dp"
+                app:strokeColor="#D1D5DB"
+                app:strokeWidth="1dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- RecyclerView for Notes Grid (2 Columns) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewNotes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="18dp"
+        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        app:spanCount="2"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_note" />
+
+    <!-- Floating Action Button (+) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:contentDescription="@string/cd_add_note"
+        android:focusable="true"
+        android:importantForAccessibility="yes"
+        android:minHeight="48dp"
+        android:minWidth="48dp"
+        app:backgroundTint="#4F46E5"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="#FFFFFF" />
+
+    <!-- Bottom Navigation Bar -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#FFFFFF"
+        android:baselineAligned="false"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="@string/nav_notes"
+            android:textColor="#4F46E5"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:drawableTopCompat="@android:drawable/ic_menu_edit"
+            app:drawableTint="#4F46E5" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="@string/nav_tags"
+            android:textColor="#4B5563"
+            android:textSize="12sp"
+            app:drawableTopCompat="@android:drawable/ic_menu_manage"
+            app:drawableTint="#4B5563" />
+
+        <TextView
+            android:id="@+id/navAccount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:text="@string/nav_account"
+            android:textColor="#4B5563"
+            android:textSize="12sp"
+            app:drawableTopCompat="@android:drawable/ic_menu_myplaces"
+            app:drawableTint="#4B5563" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
