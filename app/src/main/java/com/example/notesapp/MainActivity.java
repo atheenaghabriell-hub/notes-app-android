@@ -1,6 +1,7 @@
 package com.example.notesapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText etPassword;
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    // Palitan ng IP address ng iyong PC kung physical phone ang gamit, o 10.0.2.2 kung emulator
     private static final String BASE_URL = "http://10.0.2.2/notes_app/";
 
     @Override
@@ -121,6 +121,30 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
 
                     if ("success".equals(status)) {
+                        // --- DITO NATIN IDINAGDAG ANG PAG-SAVE NG THEME PREFERENCE AT USER ID ---
+                        String themePref = jsonResponse.optString("theme_preference", "light");
+                        String userId = jsonResponse.optString("user_id", "1");
+                        String userName = jsonResponse.optString("fullname", jsonResponse.optString("name", "User"));
+                        String userEmail = jsonResponse.optString("email", email);
+
+                        if (userId.isEmpty() && jsonResponse.has("user")) {
+                            JSONObject userObj = jsonResponse.optJSONObject("user");
+                            if (userObj != null) {
+                                userId = userObj.optString("id", "1");
+                                userName = userObj.optString("fullname", userObj.optString("name", userName));
+                                userEmail = userObj.optString("email", userEmail);
+                            }
+                        }
+
+                        SharedPreferences prefs = getSharedPreferences("UserThemePrefs", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("selected_theme", themePref);
+                        editor.putString("user_id", userId);
+                        editor.putString("user_name", userName);
+                        editor.putString("user_email", userEmail);
+                        editor.apply();
+                        // --------------------------------------------------------------------
+
                         Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                         startActivity(intent);
                         finish();

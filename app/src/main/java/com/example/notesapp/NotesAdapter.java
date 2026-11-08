@@ -1,12 +1,12 @@
 package com.example.notesapp;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -29,35 +29,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
     }
 
     public void setNotes(List<Note> newNotes) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-            @Override
-            public int getOldListSize() {
-                return noteList.size();
-            }
-
-            @Override
-            public int getNewListSize() {
-                return newNotes.size();
-            }
-
-            @Override
-            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return noteList.get(oldItemPosition).getId().equals(newNotes.get(newItemPosition).getId());
-            }
-
-            @Override
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                Note oldItem = noteList.get(oldItemPosition);
-                Note newItem = newNotes.get(newItemPosition);
-                return oldItem.getTitle().equals(newItem.getTitle())
-                        && oldItem.getContent().equals(newItem.getContent())
-                        && oldItem.getDate().equals(newItem.getDate())
-                        && oldItem.getCategory().equals(newItem.getCategory());
-            }
-        });
         noteList.clear();
         noteList.addAll(newNotes);
-        diffResult.dispatchUpdatesTo(this);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -78,6 +52,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onNoteClick(note);
+            } else {
+                Intent intent = new Intent(v.getContext(), EditNoteActivity.class);
+                intent.putExtra("note_id", note.getId());
+                intent.putExtra("note_title", note.getTitle());
+                intent.putExtra("note_content", note.getContent());
+                intent.putExtra("note_category", note.getCategory());
+                v.getContext().startActivity(intent);
             }
         });
     }

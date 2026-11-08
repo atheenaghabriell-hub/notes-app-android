@@ -93,12 +93,14 @@
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/tvShowHide"
                 android:autofillHints="password"
                 android:background="@null"
                 android:hint="@string/hint_password_enter"
                 android:inputType="textPassword"
                 android:paddingStart="16dp"
-                android:paddingEnd="70dp"
+                android:paddingEnd="12dp"
                 android:textColor="#111111"
                 android:textSize="14sp" />
 

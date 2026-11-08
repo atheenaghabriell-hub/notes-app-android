@@ -140,19 +140,34 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <Button
+        android:id="@+id/btnOpenArchive"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#666666"
+        android:text="@string/btn_view_archived_notes"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
     <!-- RecyclerView for Notes Grid (2 Columns) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewNotes"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:paddingHorizontal="18dp"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpenArchive"
         app:spanCount="2"
         tools:itemCount="4"
         tools:listitem="@layout/item_note" />
